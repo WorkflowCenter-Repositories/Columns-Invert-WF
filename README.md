@@ -30,7 +30,7 @@ Columns invert is a simple workflow for inverting the columns of a given csv fil
 ###Outputs:
 
   output-folder: '~/blueprint-name'  
-  output-file(s): {'}  
+  output-file(s): {out1.cvs,zipfile.zip'}  
   description:  Two output files for the inverted csv and a zipped csv file
   types: {'csv ', 'zipped file '}  
 
