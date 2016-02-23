@@ -21,17 +21,17 @@ sudo service docker start
 
 echo "deploy the workflow"
 if [[ ${wf} == 1 ]]; then
-   if [[ -d ~/Picard ]]; then
+   if [[ -d ~/Random ]]; then
       echo "previous workflow execution exists and will be deleted"
-      rm -rf ~/Picard
+      rm -rf ~/Random
    fi
-  cfy local init --install-plugins -p Picard.yaml --input input.yaml
+  cfy local init --install-plugins -p Random.yaml --input input.yaml
 else
-   if [[ -d ~/Picard-1host ]]; then
+   if [[ -d ~/Random-1dock ]]; then
       echo "previous workflow execution exists and will be deleted"
-      rm -rf ~/Picard-1host
+      rm -rf ~/Random-1dock
    fi
-  cfy local init --install-plugins -p Picard-1host.yaml -i input.yaml
+  cfy local init --install-plugins -p Random-1dock.yaml -i input.yaml
 fi
 
 cfy local execute -w install
