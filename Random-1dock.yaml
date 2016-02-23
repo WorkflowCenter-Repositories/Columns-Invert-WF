@@ -22,7 +22,7 @@ inputs:
   docker-image: 
       description: > 
         Docker image to be used for container building
-      default: 'rawa/col-invert'
+      default: 'dtdwd/col-invert1'
 
 node_types:
 
@@ -173,7 +173,7 @@ node_templates:
     type: csvexport
     properties:
       block_description: export csv file
-      block_name: CSVexport1.jar
+      block_name: csvexport1.jar
       block_category: File Management
       FileName: out1.csv
       service_type: block
@@ -195,7 +195,7 @@ node_templates:
           implementation: scripts/block-deploy3.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVexport1.jar']
+             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
 
   Sleep1:
     type: sleep-CsvToFile
@@ -255,7 +255,7 @@ node_templates:
     type: exportfiles
     properties:
       block_description: export files
-      block_name: ExportFiles1.jar
+      block_name: exportfiles1.jar
       block_category: File Management
       service_type: block
     relationships:
@@ -276,7 +276,7 @@ node_templates:
           implementation: scripts/block-deploy3.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/ExportFiles1.jar']
+             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
 
   finalBlock:
     type: cloudify.nodes.ApplicationModule
