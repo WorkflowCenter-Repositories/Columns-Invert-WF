@@ -16,7 +16,7 @@ Columns invert is a simple workflow for inverting the columns of a given csv fil
 ###Blueprint:
 
   blueprint-name: Random.yaml  
-  Docker-images: rawa/col-invert1  
+  Docker-images: dtdwd/col-invert1  
   sizes: 268 MB (Virtual size 594.6 MB)  
   OS-types: ubuntu14.4  
   tools: Java1.7  
@@ -48,7 +48,7 @@ This repository includes all files and scripts to deploy Col-invert workflow on 
 1- Clone the repository to your machine, open a terminal window and change to workflow repository.  
 2- To execute the workflow with multi containers and the attached input sample, in the terminal run:   
    . ./Colinvert-deploy.sh 1    
-3- If you have own input files, copy your files Dir to Picard/Input-sample folder, open Input.yaml file and change input Dir name, then  
+3- If you have own input files, copy your files Dir to Columns-Invert-WF/Input-sample folder, open Input.yaml file and change input Dir name, then  
    run: . ./Colinvert-deploy.sh 1  
   
 4- To execute the workflow with single container, follow either step 2 or 3 but run:    
