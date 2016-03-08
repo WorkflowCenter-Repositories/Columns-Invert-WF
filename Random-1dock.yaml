@@ -229,7 +229,7 @@ node_templates:
     type: zipFile
     properties:
       block_description: invert the column of csv file
-      block_name: ZipFile.jar
+      block_name: filezip1.jar
       block_category: File Management
       service_type: block
     interfaces:
@@ -238,7 +238,7 @@ node_templates:
           implementation: scripts/block-deploy3.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/ZipFile.jar']
+             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
