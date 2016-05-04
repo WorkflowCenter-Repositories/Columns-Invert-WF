@@ -288,7 +288,7 @@ node_templates:
           implementation: scripts/image_create.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [ci-new, container1]
         configure:
           implementation: scripts/containers-clean.sh
           inputs:
