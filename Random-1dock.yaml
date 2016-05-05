@@ -5,7 +5,7 @@ tosca_definitions_version: cloudify_dsl_1_0
 imports:
   - http://www.getcloudify.org/spec/cloudify/3.1/types.yaml
   - https://raw.githubusercontent.com/cloudify-cosmo/cloudify-docker-plugin/1.1/plugin.yaml
-  - https://raw.githubusercontent.com/rawaqasha/e-sc-cloudify/master/esc_nodetypes.yaml
+  - https://github.com/rawaqasha/e-sc-cloudify/raw/master/esc_nodetypes.yaml
 
 inputs:
 
@@ -49,7 +49,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         create:
-          implementation: scripts/start-inhost.sh
+          implementation: Core-LifecycleScripts/start-inhost.sh
           inputs:
             process:
               args: [Random-1dock]
@@ -64,7 +64,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         create:
-          implementation: scripts/container.sh
+          implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
               args: [Random-1dock]
@@ -105,7 +105,7 @@ node_templates:
             process:
              args: [Random-1dock, container1, { get_input: input-dir }, { get_input: input-file1 }]
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVimport1.jar']
@@ -126,7 +126,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep.jar']
@@ -136,7 +136,7 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
                   args: [CSV_import/output-2, Sleep/input-1, Random-1dock, container1]
@@ -153,7 +153,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         start:
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Col-invert.jar']
@@ -165,7 +165,7 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
                   args: [CSV_import/output-2, Col_invert/input-1, Random-1dock, container1]
@@ -186,14 +186,14 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
                   args: [Col_invert/output-1, CSV_export/input-data, Random-1dock, container1]
     interfaces:
       cloudify.interfaces.lifecycle:
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
@@ -209,7 +209,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep1.jar']
@@ -219,7 +219,7 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
                   args: [Col_invert/output-1, Sleep1/input-1, Random-1dock, container1]
@@ -236,7 +236,7 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
@@ -248,7 +248,7 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
                   args: [Sleep1/output-file, ZipFile/input-1, Random-1dock, container1]
@@ -268,14 +268,14 @@ node_templates:
         source_interfaces:
           cloudify.interfaces.relationship_lifecycle:
             preconfigure:
-              implementation: scripts/datacopy.sh
+              implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:                
                   args: [ZipFile/output-1, ExportFiles/file-list, Random-1dock, container1]
     interfaces:
       cloudify.interfaces.lifecycle:
         start: 
-          implementation: scripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/block-deploy3.sh
           inputs:
             process:
              args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
@@ -285,17 +285,17 @@ node_templates:
     interfaces:
       cloudify.interfaces.lifecycle:
         create:
-          implementation: scripts/image_create.sh
+          implementation: Core-LifecycleScripts/image_create.sh
           inputs:
             process:
              args: [ci-new, container1]
         configure:
-          implementation: scripts/containers-clean.sh
+          implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
               args: [container1]
         start:
-          implementation: scripts/final-inhost.sh
+          implementation: Core-LifecycleScripts/final-inhost.sh
           inputs:
             process:
               args: [Random-1dock]
