@@ -24,6 +24,11 @@ inputs:
         Docker image to be used for container building
       default: 'dtdwd/col-invert1'
 
+  create_image:
+      description: > 
+        an option to create Docker images
+      default: 'False'
+
 node_types:
 
   docker_container:
@@ -99,16 +104,21 @@ node_templates:
       service_type: block
     interfaces:
       cloudify.interfaces.lifecycle:
-        create:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVimport1.jar']
+        configure:
           implementation: scripts/get-input.sh
           inputs:
             process:
              args: [Random, container1, { get_input: input-dir }, { get_input: input-file1 }]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVimport1.jar', { get_input: input-file1 }]
+             args: [Random, container1, { get_input: input-file1 }]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
@@ -157,16 +167,21 @@ node_templates:
       Sleep-time: '10'
     interfaces:
       cloudify.interfaces.lifecycle:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container2, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep.jar']
         configure:
           implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
              args: [container1]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container2, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep.jar']
+             args: [Random, container2]
     relationships:
       - type: block_link
         target: CSV_import
@@ -223,16 +238,21 @@ node_templates:
       service_type: block
     interfaces:
       cloudify.interfaces.lifecycle:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container3, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Col-invert.jar']
         configure:
           implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
              args: [container2]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container3, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Col-invert.jar']
+             args: [Random, container3]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container3
@@ -304,11 +324,16 @@ node_templates:
         target: Java3
     interfaces:
       cloudify.interfaces.lifecycle:
-        start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
           inputs:
             process:
-             args: [Random, container4, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
+             args: [{ get_input: create_image}, container4, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
+        start: 
+          implementation: Core-LifecycleScripts/task-deploy.sh
+          inputs:
+            process:
+             args: [Random, container4]
 
   container5:
     type: docker_container
@@ -352,16 +377,21 @@ node_templates:
       Sleep-time: '10'
     interfaces:
       cloudify.interfaces.lifecycle:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container5, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep1.jar']
         configure:
           implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
              args: [container3]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container5, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep1.jar']
+             args: [Random, container5]
     relationships:
       - type: block_link
         target: Col_invert
@@ -418,16 +448,21 @@ node_templates:
       service_type: block
     interfaces:
       cloudify.interfaces.lifecycle:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container6, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
         configure:
           implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
              args: [container5]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container6, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
+             args: [Random, container6]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container6
@@ -498,16 +533,21 @@ node_templates:
         target: Java6
     interfaces:
       cloudify.interfaces.lifecycle:
+        create: 
+          implementation: Core-LifecycleScripts/task-download-multi.sh
+          inputs:
+            process:
+             args: [{ get_input: create_image}, container7, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
         configure:
           implementation: Core-LifecycleScripts/containers-clean.sh
           inputs:
             process:
              args: [container6]
         start: 
-          implementation: Core-LifecycleScripts/block-deploy3.sh
+          implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container7, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
+             args: [Random, container7]
 
   finalBlock:
     type: cloudify.nodes.ApplicationModule

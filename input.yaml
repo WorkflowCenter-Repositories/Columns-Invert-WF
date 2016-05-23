@@ -1,6 +1,6 @@
-input-dir: 'Input-sample'      #folder path of the input files
-input-file1: 'file.csv'   #The input file
+input-dir: 'Input-sample'           #folder path of the input files
+input-file1: 'file.csv'             #The input file
 docker-image: 'dtdwd/col-invert1'   #Docker image
-
+create_image: 'False'               #True: for automatic creation of Docker images, False otherwise
 
 
