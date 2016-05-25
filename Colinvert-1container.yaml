@@ -1,4 +1,4 @@
-#eSc Random-1dock workflow with 7 real block def. deployed on 7 containers
+#eSc Colinvert-1container workflow with 7 real block def. deployed on 7 containers
 
 tosca_definitions_version: cloudify_dsl_1_0
 
@@ -57,7 +57,7 @@ node_templates:
           implementation: Core-LifecycleScripts/start-inhost.sh
           inputs:
             process:
-              args: [Random-1dock]
+              args: [Colinvert-1container]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -72,7 +72,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random-1dock]
+              args: [Colinvert-1container]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -100,7 +100,7 @@ node_templates:
       block_description: import csv file
       block_name: CSVimport1.jar
       block_category: File Management
-      source: 'Random-1dock/file.csv'
+      source: 'Colinvert-1container/file.csv'
       service_type: block
     interfaces:
       cloudify.interfaces.lifecycle:
@@ -108,17 +108,17 @@ node_templates:
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVimport1.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/CSVimport1.jar']
         configure:
           implementation: scripts/get-input.sh
           inputs:
             process:
-             args: [Random-1dock, container1, { get_input: input-dir }, { get_input: input-file1 }]
+             args: [Colinvert-1container, container1, { get_input: input-dir }, { get_input: input-file1 }]
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1, { get_input: input-file1 }]
+             args: [Colinvert-1container, container1, { get_input: input-file1 }]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
@@ -139,12 +139,12 @@ node_templates:
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep.jar']
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
     relationships:
       - type: block_link
         target: CSV_import
@@ -154,7 +154,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [CSV_import/output-2, Sleep/input-1, Random-1dock, container1]
+                  args: [CSV_import/output-2, Sleep/input-1, Colinvert-1container, container1]
       - type: cloudify.relationships.contained_in
         target: container1
 
@@ -171,12 +171,12 @@ node_templates:
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Col-invert.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Col-invert.jar']
         start:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
@@ -188,7 +188,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [CSV_import/output-2, Col_invert/input-1, Random-1dock, container1]
+                  args: [CSV_import/output-2, Col_invert/input-1, Colinvert-1container, container1]
 
   CSV_export:
     type: csvexport
@@ -209,19 +209,19 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Col_invert/output-1, CSV_export/input-data, Random-1dock, container1]
+                  args: [Col_invert/output-1, CSV_export/input-data, Colinvert-1container, container1]
     interfaces:
       cloudify.interfaces.lifecycle:
         create: 
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/csvexport1.jar']
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
 
   Sleep1:
     type: sleep-CsvToFile
@@ -237,12 +237,12 @@ node_templates:
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep1.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/Sleep1.jar']
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
     relationships:
       - type: block_link
         target: Col_invert
@@ -252,7 +252,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Col_invert/output-1, Sleep1/input-1, Random-1dock, container1]
+                  args: [Col_invert/output-1, Sleep1/input-1, Colinvert-1container, container1]
       - type: cloudify.relationships.contained_in
         target: container1
 
@@ -269,12 +269,12 @@ node_templates:
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/filezip1.jar']
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
@@ -286,7 +286,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Sleep1/output-file, ZipFile/input-1, Random-1dock, container1]
+                  args: [Sleep1/output-file, ZipFile/input-1, Colinvert-1container, container1]
 
   ExportFiles:
     type: exportfiles
@@ -306,19 +306,19 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:                
-                  args: [ZipFile/output-1, ExportFiles/file-list, Random-1dock, container1]
+                  args: [ZipFile/output-1, ExportFiles/file-list, Colinvert-1container, container1]
     interfaces:
       cloudify.interfaces.lifecycle:
         create: 
           implementation: Core-LifecycleScripts/task-download-single.sh
           inputs:
             process:
-             args: [Random-1dock, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
+             args: [Colinvert-1container, container1, 'https://github.com/rawaqasha/eScBlocks-host/raw/master/exportfiles1.jar']
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random-1dock, container1]
+             args: [Colinvert-1container, container1]
 
   finalBlock:
     type: cloudify.nodes.ApplicationModule
@@ -338,7 +338,7 @@ node_templates:
           implementation: Core-LifecycleScripts/final-inhost.sh
           inputs:
             process:
-              args: [Random-1dock]
+              args: [Colinvert-1container]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host

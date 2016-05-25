@@ -1,4 +1,4 @@
-#eSc Random workflow with 7 real block def. deployed on 7 containers
+#eSc Colinvert workflow with 7 real block def. deployed on 7 containers
 
 tosca_definitions_version: cloudify_dsl_1_0
 
@@ -57,7 +57,7 @@ node_templates:
           implementation: Core-LifecycleScripts/start-inhost.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -72,7 +72,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -100,7 +100,7 @@ node_templates:
       block_description: import csv file
       block_name: CSVimport1.jar
       block_category: File Management
-      source: 'Random/file.csv'
+      source: 'Colinvert/file.csv'
       service_type: block
     interfaces:
       cloudify.interfaces.lifecycle:
@@ -113,12 +113,12 @@ node_templates:
           implementation: scripts/get-input.sh
           inputs:
             process:
-             args: [Random, container1, { get_input: input-dir }, { get_input: input-file1 }]
+             args: [Colinvert, container1, { get_input: input-dir }, { get_input: input-file1 }]
         start: 
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container1, { get_input: input-file1 }]
+             args: [Colinvert, container1, { get_input: input-file1 }]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container1
@@ -135,7 +135,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -181,7 +181,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container2]
+             args: [Colinvert, container2]
     relationships:
       - type: block_link
         target: CSV_import
@@ -191,7 +191,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [CSV_import/output-2, Sleep/input-1, Random, container2]
+                  args: [CSV_import/output-2, Sleep/input-1, Colinvert, container2]
       - type: cloudify.relationships.contained_in
         target: container2
       - type: cloudify.relationships.depends_on
@@ -207,7 +207,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -252,7 +252,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container3]
+             args: [Colinvert, container3]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container3
@@ -266,7 +266,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [CSV_import/output-2, Col_invert/input-1, Random, container3]
+                  args: [CSV_import/output-2, Col_invert/input-1, Colinvert, container3]
 
   container4:
     type: docker_container
@@ -278,7 +278,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -319,7 +319,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Col_invert/output-1, CSV_export/input-data, Random, container4]
+                  args: [Col_invert/output-1, CSV_export/input-data, Colinvert, container4]
       - type: cloudify.relationships.depends_on
         target: Java3
     interfaces:
@@ -333,7 +333,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container4]
+             args: [Colinvert, container4]
 
   container5:
     type: docker_container
@@ -345,7 +345,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -391,7 +391,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container5]
+             args: [Colinvert, container5]
     relationships:
       - type: block_link
         target: Col_invert
@@ -401,7 +401,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Col_invert/output-1, Sleep1/input-1, Random, container5]
+                  args: [Col_invert/output-1, Sleep1/input-1, Colinvert, container5]
       - type: cloudify.relationships.contained_in
         target: container5
       - type: cloudify.relationships.depends_on
@@ -417,7 +417,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -462,7 +462,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container6]
+             args: [Colinvert, container6]
     relationships:
       - type: cloudify.relationships.contained_in
         target: container6
@@ -476,7 +476,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:
-                  args: [Sleep1/output-file, ZipFile/input-1, Random, container6]
+                  args: [Sleep1/output-file, ZipFile/input-1, Colinvert, container6]
 
   container7:
     type: docker_container
@@ -488,7 +488,7 @@ node_templates:
           implementation: Core-LifecycleScripts/container.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host
@@ -528,7 +528,7 @@ node_templates:
               implementation: Core-LifecycleScripts/datacopy.sh
               inputs:
                 process:                
-                  args: [ZipFile/output-1, ExportFiles/file-list, Random, container7]
+                  args: [ZipFile/output-1, ExportFiles/file-list, Colinvert, container7]
       - type: cloudify.relationships.depends_on
         target: Java6
     interfaces:
@@ -547,7 +547,7 @@ node_templates:
           implementation: Core-LifecycleScripts/task-deploy.sh
           inputs:
             process:
-             args: [Random, container7]
+             args: [Colinvert, container7]
 
   finalBlock:
     type: cloudify.nodes.ApplicationModule
@@ -562,7 +562,7 @@ node_templates:
           implementation: Core-LifecycleScripts/final-inhost.sh
           inputs:
             process:
-              args: [Random]
+              args: [Colinvert]
     relationships:
       - type: cloudify.relationships.contained_in
         target: host

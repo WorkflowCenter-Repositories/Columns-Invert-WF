@@ -21,17 +21,17 @@ sudo service docker start
 
 echo "deploy the workflow"
 if [[ ${wf} == 1 ]]; then
-   if [[ -d ~/Random ]]; then
+   if [[ -d ~/Colinvert ]]; then
       echo "previous workflow execution exists and will be deleted"
-      rm -rf ~/Random
+      rm -rf ~/Colinvert
    fi
-  cfy local init --install-plugins -p Random.yaml --input input.yaml
+  cfy local init --install-plugins -p Colinvert.yaml --input input.yaml
 else
-   if [[ -d ~/Random-1dock ]]; then
+   if [[ -d ~/Colinvert-1container ]]; then
       echo "previous workflow execution exists and will be deleted"
-      rm -rf ~/Random-1dock
+      rm -rf ~/Colinvert-1container
    fi
-  cfy local init --install-plugins -p Random-1dock.yaml -i input.yaml
+  cfy local init --install-plugins -p Colinvert-1container.yaml -i input.yaml
 fi
 
 cfy local execute -w install
